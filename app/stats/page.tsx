@@ -43,16 +43,20 @@ const Graph: React.FC<GraphProps> = ({ data, label, lineColor, fillColor }) => {
 				/>
 			</div>
 			<div className={styles.statsInfo}>
-				<p>
-					<span title="Average">Avg: </span>
-					<span style={{ color: lineColor }}>{stats.average.toFixed(2)}</span>
-					<br />
-					<span title="Standard deviation">SD: </span>
-					<span style={{ color: lineColor }}>{stats.standardDeviation.toFixed(2)}</span>
-					<br />
-					<span title="Maximum">Max: </span>
-					<span style={{ color: lineColor }}>{stats.max.toFixed(2)}</span>
-				</p>
+				<div className={styles.stat}>
+					<p>Average: </p>
+					<p style={{ color: lineColor }}>{stats.average.toFixed(2)}</p>
+				</div>
+				<br />
+				<div className={styles.stat}>
+					<p>Standard deviation: </p>
+					<p style={{ color: lineColor }}>{stats.standardDeviation.toFixed(2)}</p>
+				</div>
+				<br />
+				<div className={styles.stat}>
+					<p>Max: </p>
+					<p style={{ color: lineColor }}>{stats.max.toFixed(2)}</p>
+				</div>
 			</div>
 		</div>
 	);

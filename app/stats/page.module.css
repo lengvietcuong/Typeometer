@@ -12,9 +12,12 @@
 .statsInfo {
 	margin-left: 2rem;
 	font-size: 1.25rem;
-	line-height: 1.5;
 }
 
 .statsTitle {
 	text-align: center;
+}
+
+.stat {
+	line-height: 0.5;
 }
