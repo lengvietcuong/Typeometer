@@ -8,7 +8,7 @@ import useStatsStore from '@/stores/statsStore';
 import Profile from '@/components/Profile/Profile';
 import TypingArea from '@/components/Typing/TypingArea';
 import StatsDisplay from '@/components/Stats/StatsDisplay';
-import NextButton from '@/components/Typing/NextButton';
+import NextButton from '@/components/Buttons/NextButton';
 import getRandomEntry from '@/lib/getRandomEntry';
 import fetchEntries from '@/lib/fetchEntries';
 import initializeDefaultEntries from '@/lib/initializeDefaultEntries';

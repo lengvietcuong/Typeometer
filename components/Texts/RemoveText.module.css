@@ -25,6 +25,10 @@
     width: 70ch;
 }
 
+.rowContainer em {
+    color: #80808c;
+}
+
 .expandedRow {
     height: auto;
 }

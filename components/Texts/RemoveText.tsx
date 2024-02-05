@@ -3,27 +3,28 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase';
+import { Entry } from '@/stores/textsStore';
 import useTextsStore from '@/stores/textsStore';
 import fetchEntries from '@/lib/fetchEntries';
 import styles from './RemoveText.module.css';
 
 interface RowProps {
     index: number;
-    text: string;
+    entry: Entry;
     expanded: boolean;
     onRowClick: () => void;
     onRemove: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Row: React.FC<RowProps> = ({ text, index, expanded, onRowClick, onRemove }) => {
-    const fullString = `${index + 1}. ${text}`;
+const Row: React.FC<RowProps> = ({ entry, index, expanded, onRowClick, onRemove }) => {
+    const fullText = `${index + 1}. ${entry.text}`;
     const displayString =
-        fullString.length <= 70 || expanded ? fullString : `${fullString.slice(0, 67)}...`;
+        fullText.length <= 70 || expanded ? fullText : `${fullText.slice(0, 67)}...`;
 
     return (
         <div className={`${styles.rowContainer} ${expanded ? styles.expandedRow : ''}`} onClick={onRowClick}>
             <p>
-                {displayString}
+                {displayString}{expanded && <p><em>{entry.source}</em></p>}
             </p>
             <button onClick={onRemove} className={styles.removeButton}>
                 X
@@ -65,7 +66,7 @@ const RemoveText: React.FC = () => {
                     <Row
                         key={index}
                         index={index}
-                        text={entry.text}
+                        entry={entry}
                         expanded={index === expandedRow}
                         onRowClick={() => onRowClick(index)}
                         onRemove={(event) => handleRemove(index, event)}

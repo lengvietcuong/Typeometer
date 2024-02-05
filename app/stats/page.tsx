@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import "chart.js/auto";
 import { Line } from 'react-chartjs-2';
 import useStatsStore from '@/stores/statsStore';
@@ -69,6 +70,7 @@ const StatsPage: React.FC = () => {
 
 	return (
 		<>
+			<Link className="backButton" href="/">&#x2b05;</Link>
 			<h1 className={styles.statsTitle}>Statistics</h1>
 			<Graph
 				data={speeds}
