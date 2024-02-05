@@ -1,0 +1,32 @@
+.verticalContainer {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5vw;
+}
+
+.horizontalContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+}
+
+.value {
+    font-size: 2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.25rem;
+}
+
+.unit {
+    font-size: 1rem;
+}
+
+.label {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    color: gray;
+}

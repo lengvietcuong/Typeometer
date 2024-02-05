@@ -1,0 +1,17 @@
+.statCells {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 8vh;
+}
+
+.graphLink {
+    margin-top: 3vh;
+    width: fit-content;
+    color: var(--foreground-color);
+    font-size: 1.25rem;
+    font-style: italic;
+}
+
+.graphLink:hover {
+    color: white;
+}

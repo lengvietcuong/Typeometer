@@ -1,0 +1,20 @@
+.statsContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.graphContainer {
+	width: 50vw;
+	height: 42vh;
+}
+
+.statsInfo {
+	margin-left: 2rem;
+	font-size: 1.25rem;
+	line-height: 1.5;
+}
+
+.statsTitle {
+	text-align: center;
+}

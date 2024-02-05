@@ -1,0 +1,25 @@
+.profileBadge {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid #80808c;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+}
+
+.profileBadge:hover {
+    background-color: var(--background-color);
+    border: 1px solid white;
+}
+
+.profileBadge img {
+    width: 20px;
+    height: 20px;
+}
+
+.profileBadge span {
+    font-size: 1rem;
+    color: var(--foreground-color);
+    margin-left: 0.5rem;
+}

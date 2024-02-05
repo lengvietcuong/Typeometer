@@ -1,0 +1,19 @@
+.textToType {
+    font-size: 1.5625rem;
+}
+
+.untyped {
+    color: #80808c;
+}
+
+.correct {
+    color: var(--accent-color);
+}
+
+.incorrectLetter {
+    color: #f21861;
+}
+
+.incorrectSpace {
+    background-color: #f21861;
+}

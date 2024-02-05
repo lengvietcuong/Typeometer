@@ -1,95 +1,71 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+import React, { useState, useEffect } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../lib/firebase';
+import useTextsStore from '@/stores/textsStore';
+import useStatsStore from '@/stores/statsStore';
+import Profile from '@/components/Profile/Profile';
+import TypingArea from '@/components/Typing/TypingArea';
+import StatsDisplay from '@/components/Stats/StatsDisplay';
+import NextButton from '@/components/Typing/NextButton';
+import getRandomEntry from '@/lib/getRandomEntry';
+import fetchEntries from '@/lib/fetchEntries';
+import initializeDefaultEntries from '@/lib/initializeDefaultEntries';
+import styles from './page.module.css';
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const Typeometer: React.FC = () => {
+	const [user, loading] = useAuthState(auth);
+	const [textEntry, setTextEntry] = useState<{ text: string; source: string } | null>(null);
+	const [typingStats, setTypingStats] = useState<{ speed: number; accuracy: number } | null>(null);
+	const { addStats } = useStatsStore();
+	const [reset, setReset] = useState<boolean>(false);
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+	const onTypingCompletion = (result: { speed: number, accuracy: number }) => {
+		setTypingStats(result);
+		addStats(result);
+		setReset(false);
+	};
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+	const onNextButtonClick = () => {
+		setTypingStats(null);
+		setTextEntry(getRandomEntry());
+		setReset(true);
+	};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+	const initializeEntries = async () => {
+		await fetchEntries();
+		// If database has no entries
+		if (useTextsStore.getState().entries.length === 0) initializeDefaultEntries();
+		setTextEntry(getRandomEntry());
+	}
+	useEffect(() => {
+		if (!loading) {
+			initializeEntries();
+			setTypingStats(null);
+			setReset(true);
+		}
+	}, [user, loading]);
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
-}
+	return textEntry && (
+		<>
+			<Profile />
+			<main className={styles.mainContainer}>
+				<h1>{textEntry.source}</h1>
+				<TypingArea
+					textToType={textEntry.text}
+					onTypingCompletion={onTypingCompletion}
+					reset={reset}
+				/>
+				{typingStats &&
+					<>
+						<StatsDisplay speed={typingStats.speed} accuracy={typingStats.accuracy} />
+						<NextButton onClick={onNextButtonClick} />
+					</>
+				}
+			</main>
+		</>
+	);
+};
+
+export default Typeometer;
