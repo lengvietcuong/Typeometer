@@ -1,0 +1,12 @@
+.backButton {
+    position: absolute;
+    top: 5vh;
+    left: 7vw;
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: #80808c;
+}
+
+.backButton:hover {
+    color: lightgray;
+}
