@@ -5,6 +5,7 @@
     font-size: 1.25rem;
     text-decoration: none;
     color: #80808c;
+    outline: none;
 }
 
 .backButton:hover {
