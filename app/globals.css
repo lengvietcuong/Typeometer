@@ -2,6 +2,7 @@
 	--foreground-color: #ebebeb;
 	--background-color: #16161d;
 	--accent-color: #5ecca7;
+	--error-color: #f21861;
 }
 
 body {

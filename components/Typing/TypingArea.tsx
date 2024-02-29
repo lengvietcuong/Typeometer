@@ -15,6 +15,8 @@ const TypingArea: React.FC<TypingAreaProps> = ({ textToType, onTypingCompletion,
     const validChars = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]$/;
 
     const handleKeyPress = (event: KeyboardEvent) => {
+        if (lastCorrectIndex == textToType.length - 1) return;
+
         if (startTime.current === null) {
             startTime.current = Date.now();
         }
@@ -98,15 +100,13 @@ const TypingArea: React.FC<TypingAreaProps> = ({ textToType, onTypingCompletion,
 
     return (
         <p className={styles.textToType}>
-            <span className={`${styles.text} ${styles.correct}`}>{correct}</span>
-            <span className={`${styles.text}`}>
-                {Array.from(incorrect).map((char, index) => (
-                    <span key={index} className={char !== ' ' ? styles.incorrectLetter : styles.incorrectSpace}>
-                        {char}
-                    </span>
-                ))}
-            </span>
-            <span className={`${styles.text} ${styles.untyped}`}>{untyped}</span>
+            <span className={styles.correct}>{correct}</span>
+            {Array.from(incorrect).map((char, index) => (
+                <span key={index} className={char !== ' ' ? styles.incorrectLetter : styles.incorrectSpace}>
+                    {char}
+                </span>
+            ))}
+            <span className={styles.untyped}>{untyped}</span>
         </p>
     );
 };

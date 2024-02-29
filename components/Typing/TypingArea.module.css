@@ -11,9 +11,9 @@
 }
 
 .incorrectLetter {
-    color: #f21861;
+    color: var(--error-color);
 }
 
 .incorrectSpace {
-    background-color: #f21861;
+    background-color: var(--error-color);
 }
