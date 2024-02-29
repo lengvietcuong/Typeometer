@@ -74,7 +74,7 @@ const StatsPage: React.FC = () => {
 			<h1 className={styles.statsTitle}>Statistics</h1>
 			<Graph
 				data={speeds}
-				label='Speed (WPM)'
+				label='Speed (words per minute)'
 				lineColor='rgba(0, 184, 255, 1)'
 				fillColor='rgba(0, 184, 255, 0.1)'
 			/>
