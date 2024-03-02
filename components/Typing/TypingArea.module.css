@@ -2,6 +2,10 @@
     font-size: 1.5625rem;
 }
 
+.word {
+    display: inline-block;
+}
+
 .untyped {
     color: #80808c;
 }
@@ -15,5 +19,56 @@
 }
 
 .incorrectSpace {
+    position: relative;
+}
+
+.incorrectSpace::after {
+    content: "";
+    position: absolute;
+    display: block;
     background-color: var(--error-color);
+    width: 100%;
+    height: 0.2em;
+    left: 0;
+    bottom: 0;
+}
+
+.cursor {
+    position: relative;
+}
+
+.cursor::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    margin-top: -0.1em;
+    height: 1.1em;
+    width: 2px;
+    animation: blinkCursor 1s infinite;
+}
+
+.cursor.correctCursor::before {
+    background-color: var(--accent-color);
+}
+
+.cursor.incorrectCursor::before {
+    background-color: var(--error-color);
+}
+
+@keyframes blinkCursor {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    51% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

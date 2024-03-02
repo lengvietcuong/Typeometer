@@ -15,7 +15,7 @@ const TypingArea: React.FC<TypingAreaProps> = ({ textToType, onTypingCompletion,
     const validChars = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]$/;
 
     const handleKeyPress = (event: KeyboardEvent) => {
-        if (lastCorrectIndex == textToType.length - 1) return;
+        if (lastCorrectIndex === textToType.length - 1) return;
 
         if (startTime.current === null) {
             startTime.current = Date.now();
@@ -94,21 +94,50 @@ const TypingArea: React.FC<TypingAreaProps> = ({ textToType, onTypingCompletion,
         }
     }, [reset]);
 
-    const correct = textToType.slice(0, lastCorrectIndex + 1);
-    const incorrect = textToType.slice(lastCorrectIndex + 1, currentIndex);
-    const untyped = textToType.slice(currentIndex);
+    const renderCharacter = (char: string) => {
+        const isSpace = char === ' ';
+        const isTyped = indexToRender < currentIndex;
+        const isCorrect = indexToRender <= lastCorrectIndex;
+        const hasCursor = indexToRender === currentIndex;
+        const isCorrectCursor = lastCorrectIndex === currentIndex - 1;
+    
+        let charClass = styles.untyped;
+        if (isTyped) {
+            charClass = isCorrect ? styles.correct : (isSpace ? styles.incorrectSpace : styles.incorrectLetter);
+        }
+        if (hasCursor) {
+            charClass += ' ' + styles.cursor + ' ' +
+                (isCorrectCursor ? styles.correctCursor : styles.incorrectCursor);
+        }
+
+        return (
+            <span key={indexToRender++} className={charClass}>
+                {char}
+            </span>
+        );
+    }
+    
+    const renderWord = (word: string) => (
+        <div className={styles.word}>
+            {word.split('').map((char) => renderCharacter(char))}
+        </div>
+    );
+
+    const renderSpace = () => renderCharacter(' ');
+    
+    const words = textToType.split(/\s+/);
+    let indexToRender = 0;
 
     return (
         <p className={styles.textToType}>
-            <span className={styles.correct}>{correct}</span>
-            {Array.from(incorrect).map((char, index) => (
-                <span key={index} className={char !== ' ' ? styles.incorrectLetter : styles.incorrectSpace}>
-                    {char}
-                </span>
+            {words.map((word, wordIndex) => (
+                <React.Fragment key={wordIndex}>
+                    {renderWord(word)}
+                    {renderSpace()}
+                </React.Fragment>
             ))}
-            <span className={styles.untyped}>{untyped}</span>
         </p>
-    );
+    );    
 };
 
 export default TypingArea;
